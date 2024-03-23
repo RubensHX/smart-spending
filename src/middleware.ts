@@ -1,15 +1,11 @@
-import authConfig from "./auth.config";
-import NextAuth from "next-auth";
+import { getUrl } from "@/lib/get-url";
 import {
+  apiAuthPrefix,
+  authRoutes,
   DEFAULT_LOGIN_REDIRECT,
   publicRoutes,
-  authRoutes,
-  apiAuthPrefix,
 } from "@/routes";
 import { NextRequest } from "next/server";
-import { getUrl } from "@/lib/get-url";
-
-const { auth } = NextAuth(authConfig);
 
 export function middleware(request: NextRequest) {
   const token = request.cookies.get("authjs.session-token");
@@ -19,27 +15,32 @@ export function middleware(request: NextRequest) {
   const isPublicRoute = publicRoutes.includes(pathname);
   const isAuthRoute = authRoutes.includes(pathname);
 
-  if (isApiAuthRoute) {
-    return null;
-  }
-
-  if (isPublicRoute) {
-    if (isLoggedIn) {
-      return Response.redirect(new URL(getUrl(DEFAULT_LOGIN_REDIRECT)), 301);
+  try {
+    if (isPublicRoute) {
+      if (isLoggedIn) {
+        const redirectUrl = getUrl(DEFAULT_LOGIN_REDIRECT);
+        if (!redirectUrl) {
+          throw new Error(`Invalid redirect URL: ${redirectUrl}`);
+        }
+        return Response.redirect(new URL(redirectUrl));
+      }
+      return null;
     }
-    return null;
-  }
 
-  if (isAuthRoute) {
-    if (isLoggedIn) {
-      return Response.redirect(new URL(getUrl(DEFAULT_LOGIN_REDIRECT)), 301);
+    if (isAuthRoute) {
+      if (isLoggedIn) {
+        const redirectUrl = getUrl(DEFAULT_LOGIN_REDIRECT);
+        if (!redirectUrl)
+          throw new Error(`Invalid redirect URL: ${redirectUrl}`);
+        return Response.redirect(new URL(redirectUrl));
+      }
+      const loginUrl = getUrl("/auth/login");
+      if (!loginUrl) throw new Error(`Invalid login URL: ${loginUrl}`);
+      return Response.redirect(new URL(loginUrl));
     }
-    return Response.redirect(new URL(getUrl("/auth/login")), 301);
+  } catch (error) {
+    console.error("Invalid URL:", error);
   }
 
   return null;
 }
-
-export const config = {
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
-};

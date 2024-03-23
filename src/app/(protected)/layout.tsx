@@ -1,6 +1,6 @@
 import { Header } from "@/components/header";
 
-const AuthLayout = ({ children }: { children: React.ReactNode }) => {
+const ProtectedLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <Header />
@@ -11,4 +11,4 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default AuthLayout;
+export default ProtectedLayout;
