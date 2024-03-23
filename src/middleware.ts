@@ -6,34 +6,39 @@ import {
   authRoutes,
   apiAuthPrefix,
 } from "@/routes";
+import { NextRequest } from "next/server";
+import { getUrl } from "@/lib/get-url";
 
 const { auth } = NextAuth(authConfig);
 
-export default auth((req) => {
-  const { nextUrl } = req;
-  const isLoggedIn = !!req.auth;
-
-  const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
-  const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
-  const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+export function middleware(request: NextRequest) {
+  const token = request.cookies.get("authjs.session-token");
+  const isLoggedIn = token ? true : false;
+  const pathname = request.nextUrl.pathname;
+  const isApiAuthRoute = pathname.startsWith(apiAuthPrefix);
+  const isPublicRoute = publicRoutes.includes(pathname);
+  const isAuthRoute = authRoutes.includes(pathname);
 
   if (isApiAuthRoute) {
     return null;
   }
 
-  if (isAuthRoute) {
+  if (isPublicRoute) {
     if (isLoggedIn) {
-      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT), 301);
+      return Response.redirect(new URL(getUrl(DEFAULT_LOGIN_REDIRECT)), 301);
     }
     return null;
   }
 
-  if (!isLoggedIn && !isPublicRoute) {
-    return Response.redirect(new URL("/auth/login"), 301);
+  if (isAuthRoute) {
+    if (isLoggedIn) {
+      return Response.redirect(new URL(getUrl(DEFAULT_LOGIN_REDIRECT)), 301);
+    }
+    return Response.redirect(new URL(getUrl("/auth/login")), 301);
   }
 
   return null;
-});
+}
 
 export const config = {
   matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
