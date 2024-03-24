@@ -1,4 +1,4 @@
-import { Header } from "@/components/header";
+import { Header } from '@/components/header'
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -8,7 +8,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
         {children}
       </div>
     </>
-  );
-};
+  )
+}
 
-export default AuthLayout;
+export default AuthLayout

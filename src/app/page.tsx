@@ -1,10 +1,10 @@
-import { LoginButton } from "@/components/auth/login-button";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { Poppins } from "next/font/google";
-import Image from "next/image";
+import { LoginButton } from '@/components/auth/login-button'
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
+import { Poppins } from 'next/font/google'
+import Image from 'next/image'
 
-const font = Poppins({ subsets: ["latin"], weight: ["600"] });
+const font = Poppins({ subsets: ['latin'], weight: ['600'] })
 
 export default function Home() {
   return (
@@ -14,8 +14,8 @@ export default function Home() {
           <Image src="/favicon.png" alt="logo" width={60} height={60} />
           <h1
             className={cn(
-              "text-6xl font-semibold dark:text-white text-emerald-500 drop-shadow-md",
-              font.className
+              'text-6xl font-semibold dark:text-white text-emerald-500 drop-shadow-md',
+              font.className,
             )}
           >
             Smart Spending
@@ -33,5 +33,5 @@ export default function Home() {
         </div>
       </div>
     </main>
-  );
+  )
 }

@@ -1,32 +1,32 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button'
 import {
   PopoverTrigger,
   PopoverContent,
   Popover,
-} from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
+} from '@/components/ui/popover'
+import { Calendar } from '@/components/ui/calendar'
 import {
   CardDescription,
   CardTitle,
   CardHeader,
   CardContent,
   Card,
-} from "@/components/ui/card";
-import Image from "next/image";
-import { auth } from "@/auth";
-import { getUserById } from "@/data/user";
-import { getBudgetByUserId } from "@/data/budget";
-import { getSpendingByUserId } from "@/data/spending";
+} from '@/components/ui/card'
+import Image from 'next/image'
+import { auth } from '@/auth'
+import { getUserById } from '@/data/user'
+import { getBudgetByUserId } from '@/data/budget'
+import { getSpendingByUserId } from '@/data/spending'
 
 export default async function DashboardPage() {
-  const session = await auth();
-  const user = await getUserById(session?.user?.id ?? "");
-  const budget = await getBudgetByUserId(user?.id ?? "");
-  const spending = await getSpendingByUserId(user?.id ?? "");
+  const session = await auth()
+  const user = await getUserById(session?.user?.id ?? '')
+  const budget = await getBudgetByUserId(user?.id ?? '')
+  const spending = await getSpendingByUserId(user?.id ?? '')
   const currentBudget =
-    budget?.map((b) => b.amount).reduce((a, b) => a + b, 0) ?? 0;
+    budget?.map((b) => b.amount).reduce((a, b) => a + b, 0) ?? 0
   const moneyWasted =
-    spending?.map((s) => s.amount).reduce((a, b) => a + b, 0) ?? 0;
+    spending?.map((s) => s.amount).reduce((a, b) => a + b, 0) ?? 0
 
   return (
     <div className="grid gap-4 w-full p-2">
@@ -47,9 +47,9 @@ export default async function DashboardPage() {
                 variant="outline"
               >
                 <CalendarClockIcon className="mr-2 h-4 w-4" />
-                {new Date().toLocaleString("default", {
-                  month: "long",
-                  year: "numeric",
+                {new Date().toLocaleString('default', {
+                  month: 'long',
+                  year: 'numeric',
                 })}
               </Button>
             </PopoverTrigger>
@@ -64,9 +64,9 @@ export default async function DashboardPage() {
           <CardHeader>
             <CardDescription>Money Wasted</CardDescription>
             <CardTitle>
-              {moneyWasted.toLocaleString("en-US", {
-                style: "currency",
-                currency: "USD",
+              {moneyWasted.toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
               })}
             </CardTitle>
           </CardHeader>
@@ -77,8 +77,8 @@ export default async function DashboardPage() {
               height="150"
               src="/placeholder.svg"
               style={{
-                aspectRatio: "250/150",
-                objectFit: "cover",
+                aspectRatio: '250/150',
+                objectFit: 'cover',
               }}
               width="250"
             />
@@ -88,9 +88,9 @@ export default async function DashboardPage() {
           <CardHeader>
             <CardDescription>Current Budget</CardDescription>
             <CardTitle>
-              {currentBudget.toLocaleString("en-US", {
-                style: "currency",
-                currency: "USD",
+              {currentBudget.toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
               })}
             </CardTitle>
           </CardHeader>
@@ -101,8 +101,8 @@ export default async function DashboardPage() {
               height="150"
               src="/placeholder.svg"
               style={{
-                aspectRatio: "250/150",
-                objectFit: "cover",
+                aspectRatio: '250/150',
+                objectFit: 'cover',
               }}
               width="250"
             />
@@ -121,37 +121,18 @@ export default async function DashboardPage() {
             height="250"
             src="/placeholder.svg"
             style={{
-              aspectRatio: "500/250",
-              objectFit: "cover",
+              aspectRatio: '500/250',
+              objectFit: 'cover',
             }}
             width="500"
           />
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }
 
-function ArrowLeftIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m12 19-7-7 7-7" />
-      <path d="M19 12H5" />
-    </svg>
-  );
-}
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function CalendarClockIcon(props: any) {
   return (
     <svg
@@ -173,5 +154,5 @@ function CalendarClockIcon(props: any) {
       <path d="M17.5 17.5 16 16.25V14" />
       <path d="M22 16a6 6 0 1 1-12 0 6 6 0 0 1 12 0Z" />
     </svg>
-  );
+  )
 }

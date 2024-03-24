@@ -1,4 +1,4 @@
-import { Header } from "@/components/header";
+import { Header } from '@/components/header'
 
 const ProtectedLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -8,7 +8,7 @@ const ProtectedLayout = ({ children }: { children: React.ReactNode }) => {
         {children}
       </div>
     </>
-  );
-};
+  )
+}
 
-export default ProtectedLayout;
+export default ProtectedLayout
