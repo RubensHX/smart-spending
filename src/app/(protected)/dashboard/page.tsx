@@ -17,6 +17,7 @@ import { auth } from '@/auth'
 import { getUserById } from '@/data/user'
 import { getBudgetByUserId } from '@/data/budget'
 import { getSpendingByUserId } from '@/data/spending'
+import { CalendarClock } from 'lucide-react'
 
 export default async function DashboardPage() {
   const session = await auth()
@@ -29,7 +30,7 @@ export default async function DashboardPage() {
     spending?.map((s) => s.amount).reduce((a, b) => a + b, 0) ?? 0
 
   return (
-    <div className="grid gap-4 w-full p-2">
+    <div className="grid gap-4 w-full px-6">
       <div className="flex items-center gap-4">
         <h1 className="text-2xl font-semibold">Financial Dashboard</h1>
         <div className="ml-auto flex items-center gap-2">
@@ -46,7 +47,7 @@ export default async function DashboardPage() {
                 id="date"
                 variant="outline"
               >
-                <CalendarClockIcon className="mr-2 h-4 w-4" />
+                <CalendarClock className="mr-2 h-4 w-4" />
                 {new Date().toLocaleString('default', {
                   month: 'long',
                   year: 'numeric',
@@ -109,50 +110,6 @@ export default async function DashboardPage() {
           </CardContent>
         </Card>
       </div>
-      <Card className="flex flex-col">
-        <CardHeader>
-          <CardTitle>Spending Trends</CardTitle>
-          <CardDescription>Spending trends over time</CardDescription>
-        </CardHeader>
-        <CardContent className="flex items-center justify-center">
-          <Image
-            alt="Chart"
-            className="rounded-lg object-cover"
-            height="250"
-            src="/placeholder.svg"
-            style={{
-              aspectRatio: '500/250',
-              objectFit: 'cover',
-            }}
-            width="500"
-          />
-        </CardContent>
-      </Card>
     </div>
-  )
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function CalendarClockIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M21 7.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h3.5" />
-      <path d="M16 2v4" />
-      <path d="M8 2v4" />
-      <path d="M3 10h5" />
-      <path d="M17.5 17.5 16 16.25V14" />
-      <path d="M22 16a6 6 0 1 1-12 0 6 6 0 0 1 12 0Z" />
-    </svg>
   )
 }

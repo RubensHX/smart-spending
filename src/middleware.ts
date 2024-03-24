@@ -1,46 +1,28 @@
-import { getUrl } from '@/lib/get-url'
-import {
-  apiAuthPrefix,
-  authRoutes,
-  DEFAULT_LOGIN_REDIRECT,
-  publicRoutes,
-} from '@/routes'
-import { NextRequest } from 'next/server'
+import NextAuth from 'next-auth'
+import { authConfig } from '@/auth.config'
+import { DEFAULT_LOGIN_REDIRECT, publicRoutes, authRoutes } from './routes'
 
-export function middleware(request: NextRequest) {
-  const token = request.cookies.get('authjs.session-token')
-  const isLoggedIn = token ? true : false
-  const pathname = request.nextUrl.pathname
-  const isApiAuthRoute = pathname.startsWith(apiAuthPrefix)
-  const isPublicRoute = publicRoutes.includes(pathname)
-  const isAuthRoute = authRoutes.includes(pathname)
+const { auth } = NextAuth(authConfig)
 
-  try {
-    if (isPublicRoute) {
-      if (isLoggedIn) {
-        const redirectUrl = getUrl(DEFAULT_LOGIN_REDIRECT)
-        if (!redirectUrl) {
-          throw new Error(`Invalid redirect URL: ${redirectUrl}`)
-        }
-        return Response.redirect(new URL(redirectUrl))
-      }
-      return null
-    }
+export default auth((req) => {
+  const { nextUrl } = req
 
-    if (isAuthRoute) {
-      if (isLoggedIn) {
-        const redirectUrl = getUrl(DEFAULT_LOGIN_REDIRECT)
-        if (!redirectUrl)
-          throw new Error(`Invalid redirect URL: ${redirectUrl}`)
-        return Response.redirect(new URL(redirectUrl))
-      }
-      const loginUrl = getUrl('/auth/login')
-      if (!loginUrl) throw new Error(`Invalid login URL: ${loginUrl}`)
-      return Response.redirect(new URL(loginUrl))
-    }
-  } catch (error) {
-    console.error('Invalid URL:', error)
-  }
+  const isAuthenticated = !!req.auth
+  const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
+  const isAuthRoute = authRoutes.includes(nextUrl.pathname)
 
-  return null
+  if (isAuthRoute && isAuthenticated)
+    return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
+
+  if (isAuthRoute && !isAuthenticated) return
+
+  if (isPublicRoute && isAuthenticated)
+    return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
+
+  if (!isAuthenticated && !isPublicRoute)
+    return Response.redirect(new URL('/', nextUrl))
+})
+
+export const config = {
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 }

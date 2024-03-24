@@ -1,11 +1,10 @@
 import type { NextAuthConfig } from 'next-auth'
-import { NextApiRequest } from 'next'
 import Credentials from 'next-auth/providers/credentials'
 import bcryptjs from 'bcryptjs'
 import { LoginSchema } from './schemas'
 import { getUserByEmail } from './data/user'
 
-export default {
+export const authConfig = {
   providers: [
     Credentials({
       name: 'Credentials',
@@ -44,4 +43,4 @@ export default {
       },
     }),
   ],
-} as NextAuthConfig
+} satisfies NextAuthConfig
