@@ -1,33 +1,42 @@
+import { auth } from '@/auth'
+import TransactionsList from '@/components/dashboard/transactions-list'
 import { Button } from '@/components/ui/button'
-import {
-  PopoverTrigger,
-  PopoverContent,
-  Popover,
-} from '@/components/ui/popover'
 import { Calendar } from '@/components/ui/calendar'
 import {
-  CardDescription,
-  CardTitle,
-  CardHeader,
-  CardContent,
   Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
 } from '@/components/ui/card'
-import Image from 'next/image'
-import { auth } from '@/auth'
-import { getUserById } from '@/data/user'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
 import { getBudgetByUserId } from '@/data/budget'
-import { getSpendingByUserId } from '@/data/spending'
+import {
+  getExpenseTransactionsByUserId,
+  getIncomeTransactionsByUserId,
+} from '@/data/transaction'
+import { getUserById } from '@/data/user'
 import { CalendarClock } from 'lucide-react'
+import Image from 'next/image'
 
 export default async function DashboardPage() {
   const session = await auth()
   const user = await getUserById(session?.user?.id ?? '')
   const budget = await getBudgetByUserId(user?.id ?? '')
-  const spending = await getSpendingByUserId(user?.id ?? '')
+  const expenseTransactions = await getExpenseTransactionsByUserId(
+    user?.id ?? '',
+  )
+  const incomeTransactions = await getIncomeTransactionsByUserId(user?.id ?? '')
   const currentBudget =
     budget?.map((b) => b.amount).reduce((a, b) => a + b, 0) ?? 0
   const moneyWasted =
-    spending?.map((s) => s.amount).reduce((a, b) => a + b, 0) ?? 0
+    expenseTransactions?.map((s) => s.amount).reduce((a, b) => a + b, 0) ?? 0
+  const moneyEarned =
+    incomeTransactions?.map((i) => i.amount).reduce((a, b) => a + b, 0) ?? 0
 
   return (
     <div className="grid gap-4 w-full px-6">
@@ -107,6 +116,41 @@ export default async function DashboardPage() {
               }}
               width="250"
             />
+          </CardContent>
+        </Card>
+        <Card className="flex flex-col">
+          <CardHeader>
+            <CardDescription>Money Earned</CardDescription>
+            <CardTitle>
+              {moneyEarned.toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+              })}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="flex items-center justify-center">
+            <Image
+              alt="Chart"
+              className="rounded-lg object-cover"
+              height="150"
+              src="/placeholder.svg"
+              style={{
+                aspectRatio: '250/150',
+                objectFit: 'cover',
+              }}
+              width="250"
+            />
+          </CardContent>
+        </Card>
+        <Card className="flex flex-col">
+          <CardHeader>
+            <CardTitle>Recent Transactions</CardTitle>
+            <CardDescription>
+              Your most recent account activity.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="flex items-center justify-center">
+            <TransactionsList userId={user?.id ?? ''} />
           </CardContent>
         </Card>
       </div>
