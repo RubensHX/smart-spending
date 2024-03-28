@@ -63,7 +63,7 @@ export const getLatestTransactions = async (userId: string) => {
     const transactions = await db.transaction.findMany({
       where: { userId },
       orderBy: { date: 'desc' },
-      take: 10,
+      take: 5,
     })
 
     return transactions

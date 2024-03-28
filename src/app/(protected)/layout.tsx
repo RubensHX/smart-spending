@@ -1,13 +1,13 @@
-import { Header } from '@/components/header'
+import MainSidebar from '@/components/dashboard/main-sidebar'
 
 const ProtectedLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <>
-      <Header />
-      <div className="h-full flex items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white to-gray-200 dark:from-gray-900 dark:to-black">
+    <div className="grid grid-cols-[16rem_1fr] gap-4">
+      <MainSidebar />
+      <main className="h-full w-full p-4 flex items-center justify-center bg-white dark:bg-black">
         {children}
-      </div>
-    </>
+      </main>
+    </div>
   )
 }
 
