@@ -80,7 +80,7 @@ model Transaction {
   userId      String
   amount      Float
   description String
-  date        DateTime
+  date        DateTime            @default(now())
   type        TransactionType
   category    TransactionCategory
   user        User                @relation(fields: [userId], references: [id], onDelete: Cascade)

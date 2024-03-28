@@ -1,5 +1,6 @@
 import { auth } from '@/auth'
-import TransactionsList from '@/components/dashboard/transactions-list'
+import { CreateTransactionButton } from '@/components/dashboard/create-transaction-button'
+import TransactionsList from '@/components/transaction/transactions-list'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import {
@@ -34,7 +35,7 @@ export default async function DashboardPage() {
   const currentBudget =
     budget?.map((b) => b.amount).reduce((a, b) => a + b, 0) ?? 0
   const moneyWasted =
-    expenseTransactions?.map((s) => s.amount).reduce((a, b) => a + b, 0) ?? 0
+    expenseTransactions?.map((s) => s.amount).reduce((a, b) => a - b, 0) ?? 0
   const moneyEarned =
     incomeTransactions?.map((i) => i.amount).reduce((a, b) => a + b, 0) ?? 0
 
@@ -43,6 +44,7 @@ export default async function DashboardPage() {
       <div className="flex items-center gap-4">
         <h1 className="text-2xl font-semibold">Financial Dashboard</h1>
         <div className="ml-auto flex items-center gap-2">
+          <CreateTransactionButton />
           <Button className="hidden sm:flex" variant="outline">
             Today
           </Button>
