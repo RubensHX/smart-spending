@@ -53,10 +53,15 @@ export const TransactionForm: React.FC = () => {
     setError('')
     setSuccess('')
     startTransition(() => {
-      createTransaction(values, user?.id).then((data) => {
-        setError(data.error)
-        setSuccess(data.success)
-      })
+      createTransaction(values, user?.id)
+        .then((data) => {
+          setError(data.error)
+          setSuccess(data.success)
+        })
+        .then(() => {
+          closeModal()
+          router.refresh()
+        })
     })
     setTimeout(() => {
       router.push('/auth/login')

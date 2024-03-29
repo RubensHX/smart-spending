@@ -56,7 +56,9 @@ export function SidebarNavHeaderTitle({
 }
 
 export function SidebarNavMain({ children, className }: SidebarGenericProps) {
-  return <main className={cn('flex flex-col ', className)}>{children}</main>
+  return (
+    <main className={cn('flex flex-col gap-2 ', className)}>{children}</main>
+  )
 }
 
 type SidebarNavLinkProps = {

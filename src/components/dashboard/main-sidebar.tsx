@@ -13,7 +13,7 @@ import {
 } from '@/components/dashboard/sidebar'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
-import { LineChart } from 'lucide-react'
+import { ArrowRightLeft, LineChart } from 'lucide-react'
 import { Poppins } from 'next/font/google'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -48,6 +48,13 @@ export default function MainSidebar() {
             <SidebarNavLink href="/dashboard" active={isActive('/dashboard')}>
               <LineChart className="h-3 w-3 mr-3" />
               Dashboard
+            </SidebarNavLink>
+            <SidebarNavLink
+              href="/transactions"
+              active={isActive('/transactions')}
+            >
+              <ArrowRightLeft className="h-3 w-3 mr-3" />
+              Transactions
             </SidebarNavLink>
           </SidebarNavMain>
         </SidebarNav>
