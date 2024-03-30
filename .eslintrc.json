@@ -3,5 +3,9 @@
     "@rocketseat/eslint-config/next",
     "next/core-web-vitals",
     "prettier"
-  ]
+  ],
+  "rules": {
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "off"
+  }
 }

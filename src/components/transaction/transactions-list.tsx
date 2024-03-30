@@ -9,6 +9,7 @@ import {
   Receipt,
   ShoppingCart,
 } from 'lucide-react'
+import React from 'react'
 
 type TransactionListProps = {
   userId?: string | undefined
@@ -41,8 +42,8 @@ const TransactionsList = async ({ userId }: TransactionListProps) => {
       <div className="container grid gap-6 md:gap-8 px-4 md:px-6">
         <div className="grid gap-6">
           {transactions?.map((transaction, index) => (
-            <>
-              <div key={transaction.id} className="flex items-center gap-4">
+            <React.Fragment key={transaction.id}>
+              <div className="flex items-center gap-4">
                 <div className="flex rounded-full h-10 w-10 dark:bg-gray-800 bg-gray-200 items-center justify-center ">
                   {categoryIcons[transaction.category]}
                 </div>
@@ -68,7 +69,7 @@ const TransactionsList = async ({ userId }: TransactionListProps) => {
                 </div>
               </div>
               {index === transactions.length - 1 && <Separator />}
-            </>
+            </React.Fragment>
           ))}
           {transactions?.length === 0 && (
             <p className="text-center text-gray-500">No transactions found</p>
