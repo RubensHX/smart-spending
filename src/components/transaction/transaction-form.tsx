@@ -58,14 +58,14 @@ export const TransactionForm: React.FC = () => {
               variant: 'destructive',
               title: 'Error',
               description: data.error,
-              status: 'error',
+              duration: 5000,
             })
           }
           if (data.success) {
             toast({
               title: 'Success',
               description: data.success,
-              status: 'success',
+              duration: 5000,
             })
           }
         })
