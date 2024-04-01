@@ -9,6 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { Cog, LogOut, User } from 'lucide-react'
 import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 
@@ -50,20 +51,23 @@ export function UserDropdown() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <Link href="/profile">
-            <DropdownMenuItem className="hover:cursor-pointer">
+            <DropdownMenuItem className="hover:cursor-pointer items-center justify-between">
               Profile
+              <User className="w-4 h-4" />
             </DropdownMenuItem>
           </Link>
-          <DropdownMenuItem className="hover:cursor-pointer">
+          <DropdownMenuItem className="hover:cursor-pointer items-center justify-between">
             Settings
+            <Cog className="w-4 h-4" />
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem
-          className="hover:cursor-pointer"
+          className="hover:cursor-pointer items-center justify-between"
           onClick={handleSignOut}
         >
           Log out
+          <LogOut className="w-4 h-4" />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

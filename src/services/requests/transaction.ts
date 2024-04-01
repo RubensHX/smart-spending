@@ -20,9 +20,10 @@ export const getAllTransactionsByUserId = requestHandler<
   }),
 )
 
-export const createTransaction = requestHandler<Transaction, Transaction>(
-  (params) => axios.post('/api/transaction', params),
-)
+export const createTransaction = requestHandler<
+  Omit<Transaction, 'id'>,
+  Transaction
+>((params) => axios.post('/api/transaction', params))
 
 export const getTransactionById = requestHandler<
   TransactionRequest,
