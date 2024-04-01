@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { SessionProvider } from 'next-auth/react'
 import { TransactionModal } from '@/components/modals/transaction-modal'
+import { ProviderReactQuery } from '@/provider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -23,15 +24,17 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <SessionProvider>
-          <TransactionModal />
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-          </ThemeProvider>
+          <ProviderReactQuery>
+            <TransactionModal />
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+            </ThemeProvider>
+          </ProviderReactQuery>
         </SessionProvider>
       </body>
     </html>
