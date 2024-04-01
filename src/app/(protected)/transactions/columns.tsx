@@ -1,18 +1,9 @@
 'use client'
 
 import { Badge } from '@/components/ui/badge'
+import { Transaction } from '@/types'
 import { ColumnDef } from '@tanstack/react-table'
 import RowActions from './row-actions'
-import { useTransactionModal } from '@/store/use-transaction-modal'
-
-export type Transaction = {
-  id: string
-  userId: string
-  description: string
-  date: Date
-  type: string
-  category: string
-}
 
 export const columns: ColumnDef<Transaction>[] = [
   {

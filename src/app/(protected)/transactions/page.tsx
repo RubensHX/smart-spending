@@ -1,9 +1,10 @@
 import { auth } from '@/auth'
-import { columns, Transaction } from './columns'
+import { columns } from './columns'
 import { DataTable } from './data-table'
 import { getAllTransactionsByUserId } from '@/data/transaction'
 import { Prisma } from '@prisma/client'
 import { ReturnTypeWithoutPromise } from '@/lib/return-type-without-promise'
+import { Transaction } from '@/types'
 
 async function getData(): Promise<Transaction[]> {
   const session = await auth()
