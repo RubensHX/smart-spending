@@ -3,6 +3,7 @@
 import { Badge } from '@/components/ui/badge'
 import { ColumnDef } from '@tanstack/react-table'
 import RowActions from './row-actions'
+import { useTransactionModal } from '@/store/use-transaction-modal'
 
 export type Transaction = {
   id: string
@@ -11,14 +12,6 @@ export type Transaction = {
   date: Date
   type: string
   category: string
-}
-
-function onEdit(row: Transaction) {
-  console.log('Edit', row)
-}
-
-function onDelete(row: Transaction) {
-  console.log('Delete', row)
 }
 
 export const columns: ColumnDef<Transaction>[] = [
@@ -70,8 +63,18 @@ export const columns: ColumnDef<Transaction>[] = [
   {
     accessorKey: 'actions',
     header: 'Actions',
-    cell: ({ row }) => (
-      <RowActions row={row} onEdit={onEdit} onDelete={onDelete} />
-    ),
+    cell: ({ row }) => {
+      function onEdit(transaction: Transaction) {}
+
+      function onDelete(transaction: Transaction) {}
+
+      return (
+        <RowActions
+          row={row}
+          onEdit={(row) => onEdit(row)}
+          onDelete={(row) => onDelete(row)}
+        />
+      )
+    },
   },
 ]
