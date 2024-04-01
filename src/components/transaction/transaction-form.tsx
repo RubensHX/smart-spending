@@ -2,8 +2,6 @@
 
 import { createTransaction } from '@/actions/createTransaction'
 import { auth } from '@/auth'
-import { FormError } from '@/components/form-error'
-import { FormSuccess } from '@/components/form-success'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -21,23 +19,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { useToast } from '@/components/ui/use-toast'
 import { TransactionSchema } from '@/schemas'
 import { useTransactionModal } from '@/store/use-transaction-modal'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useQueryClient } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { useState, useTransition } from 'react'
+import { useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 export const TransactionForm: React.FC = () => {
+  const { toast } = useToast()
   const [isPending, startTransition] = useTransition()
-  const [error, setError] = useState<string | undefined>('')
-  const [success, setSuccess] = useState<string | undefined>('')
   const router = useRouter()
   const { data: session } = useSession()
   const user = session?.user
   const { closeModal } = useTransactionModal()
+  const queryClient = useQueryClient()
 
   const form = useForm<z.infer<typeof TransactionSchema>>({
     resolver: zodResolver(TransactionSchema),
@@ -50,22 +50,32 @@ export const TransactionForm: React.FC = () => {
   })
 
   const onSubmit = (values: z.infer<typeof TransactionSchema>) => {
-    setError('')
-    setSuccess('')
     startTransition(() => {
       createTransaction(values, user?.id)
         .then((data) => {
-          setError(data.error)
-          setSuccess(data.success)
+          if (data.error) {
+            toast({
+              variant: 'destructive',
+              title: 'Error',
+              description: data.error,
+              status: 'error',
+            })
+          }
+          if (data.success) {
+            toast({
+              title: 'Success',
+              description: data.success,
+              status: 'success',
+            })
+          }
         })
         .then(() => {
           closeModal()
-          router.refresh()
+          queryClient.invalidateQueries({
+            queryKey: ['transactions'],
+          })
         })
     })
-    setTimeout(() => {
-      router.push('/auth/login')
-    }, 5000)
   }
 
   return (
@@ -170,8 +180,6 @@ export const TransactionForm: React.FC = () => {
               )}
             />
           </div>
-          <FormError message={error} />
-          <FormSuccess message={success} />
           <Button type="submit" className="w-full" disabled={isPending}>
             Create transaction
           </Button>

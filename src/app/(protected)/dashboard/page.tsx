@@ -1,5 +1,4 @@
 import { auth } from '@/auth'
-import { CreateTransactionButton } from '@/components/dashboard/create-transaction-button'
 import TransactionsList from '@/components/transaction/transactions-list'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
@@ -21,7 +20,7 @@ import {
   getIncomeTransactionsByUserId,
 } from '@/data/transaction'
 import { getUserById } from '@/data/user'
-import { CalendarClock } from 'lucide-react'
+import { CalendarClock, WalletIcon } from 'lucide-react'
 import Image from 'next/image'
 
 export default async function DashboardPage() {
@@ -32,19 +31,18 @@ export default async function DashboardPage() {
     user?.id ?? '',
   )
   const incomeTransactions = await getIncomeTransactionsByUserId(user?.id ?? '')
-  const currentBudget =
-    budget?.map((b) => b.amount).reduce((a, b) => a + b, 0) ?? 0
+
   const moneyWasted =
     expenseTransactions?.map((s) => s.amount).reduce((a, b) => a - b, 0) ?? 0
   const moneyEarned =
     incomeTransactions?.map((i) => i.amount).reduce((a, b) => a + b, 0) ?? 0
+  const currentBudget = moneyEarned + moneyWasted
 
   return (
     <div className="grid gap-4 w-full px-6">
       <div className="flex items-center gap-4">
         <h1 className="text-2xl font-semibold">Financial Dashboard</h1>
         <div className="ml-auto flex items-center gap-2">
-          <CreateTransactionButton />
           <Button className="hidden sm:flex" variant="outline">
             Today
           </Button>
@@ -100,25 +98,15 @@ export default async function DashboardPage() {
           <CardHeader>
             <CardDescription>Current Budget</CardDescription>
             <CardTitle>
-              {currentBudget.toLocaleString('en-US', {
-                style: 'currency',
-                currency: 'USD',
-              })}
+              <div className="flex items-center space-x-2">
+                <WalletIcon className="mr-2 h-4 w-4" />
+                {currentBudget.toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                })}
+              </div>
             </CardTitle>
           </CardHeader>
-          <CardContent className="flex items-center justify-center">
-            <Image
-              alt="Chart"
-              className="rounded-lg object-cover"
-              height="150"
-              src="/placeholder.svg"
-              style={{
-                aspectRatio: '250/150',
-                objectFit: 'cover',
-              }}
-              width="250"
-            />
-          </CardContent>
         </Card>
         <Card className="flex flex-col">
           <CardHeader>

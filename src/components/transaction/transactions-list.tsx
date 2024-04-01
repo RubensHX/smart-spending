@@ -37,6 +37,17 @@ const TransactionsList = async ({ userId }: TransactionListProps) => {
     OTHER: <Banknote className="h-6 w-6" />,
   }
 
+  function formatCurrency(amount: number) {
+    return amount.toLocaleString('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    })
+  }
+
+  function formatDate(date: Date) {
+    return new Date(date).toLocaleDateString()
+  }
+
   return (
     <div className="w-full py-12">
       <div className="container grid gap-6 md:gap-8 px-4 md:px-6">
@@ -50,7 +61,7 @@ const TransactionsList = async ({ userId }: TransactionListProps) => {
                 <div className="grid gap-1">
                   <h3 className="font-semibold">{transaction.description}</h3>
                   <p className="text-sm leading-none text-muted-foreground">
-                    {transaction.type} - {transaction.date.toLocaleDateString()}
+                    {transaction.type} - {formatDate(transaction.date)}
                   </p>
                 </div>
                 <div
@@ -62,32 +73,15 @@ const TransactionsList = async ({ userId }: TransactionListProps) => {
                   )}
                 >
                   {(transaction.type === 'EXPENSE' && '-') || '+'}
-                  {transaction.amount.toLocaleString('en-US', {
-                    style: 'currency',
-                    currency: 'USD',
-                  })}
+                  {formatCurrency(transaction.amount)}
                 </div>
               </div>
-              {index === transactions.length - 1 && <Separator />}
+              {index !== transactions.length - 1 && <Separator />}
             </React.Fragment>
           ))}
           {transactions?.length === 0 && (
             <p className="text-center text-gray-500">No transactions found</p>
           )}
-          <div className="w-full flex flex-col items-end justify-center">
-            <h3 className="font-semibold">Total</h3>
-            <p
-              className={cn(
-                'text-sm leading-none text-muted-foreground',
-                totalAmount.toString().includes('-') ? 'text-red-500' : '',
-              )}
-            >
-              {totalAmount.toLocaleString('en-US', {
-                style: 'currency',
-                currency: 'USD',
-              })}
-            </p>
-          </div>
         </div>
       </div>
     </div>

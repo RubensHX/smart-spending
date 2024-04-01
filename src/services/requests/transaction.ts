@@ -2,17 +2,16 @@ import { requestHandler } from '@/lib/request-handler'
 import { Transaction } from '@/types/index'
 import axios from 'axios'
 
-interface TransactionByUserRequest {
-  userId: string
-}
-
-interface TransactionByIdRequest {
-  id: string
+interface TransactionRequest {
+  userId?: string
+  id?: string
+  onlyExpenses?: boolean
+  onlyIncomes?: boolean
 }
 
 export const getAllTransactionsByUserId = requestHandler<
-  TransactionByUserRequest,
-  Transaction
+  TransactionRequest,
+  Transaction[]
 >((params) =>
   axios.get('/api/transaction', {
     params: {
@@ -26,7 +25,7 @@ export const createTransaction = requestHandler<Transaction, Transaction>(
 )
 
 export const getTransactionById = requestHandler<
-  TransactionByIdRequest,
+  TransactionRequest,
   Transaction
 >((params) => {
   const id = params?.id
@@ -48,3 +47,16 @@ export const deleteTransaction = requestHandler<
   const id = params?.id
   return axios.delete(`/api/transaction/${id}`, { data: params })
 })
+
+export const getFilteredTransactions = requestHandler<
+  TransactionRequest,
+  Transaction[]
+>((params) =>
+  axios.get('/api/transaction', {
+    params: {
+      userId: params?.userId,
+      onlyExpenses: params?.onlyExpenses,
+      onlyIncomes: params?.onlyIncomes,
+    },
+  }),
+)

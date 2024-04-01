@@ -5,6 +5,7 @@ import './globals.css'
 import { SessionProvider } from 'next-auth/react'
 import { TransactionModal } from '@/components/modals/transaction-modal'
 import { ProviderReactQuery } from '@/provider'
+import { Toaster } from '@/components/ui/toaster'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -32,6 +33,7 @@ export default function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
+              <Toaster />
               {children}
             </ThemeProvider>
           </ProviderReactQuery>

@@ -48,7 +48,7 @@ export const columns: ColumnDef<Transaction>[] = [
     header: 'Category',
     cell: ({ row }) => {
       const category = row.getValue('category')
-      return <Badge>{category as string}</Badge>
+      return <Badge variant="secondary">{category as string}</Badge>
     },
   },
   {
