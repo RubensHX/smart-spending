@@ -53,11 +53,11 @@ model User {
   image         String?
   password      String?
   birthDate     DateTime?
-  role          Role[]
+  roles         Role[]
   accounts      Account[]
   sessions      Session[]
-  Transaction   Transaction[]
-  Budget        Budget[]
+  Transactions  Transaction[]
+  Budgets       Budget[]
 }
 
 model VerificationToken {
