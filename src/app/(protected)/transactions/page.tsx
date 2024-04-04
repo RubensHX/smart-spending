@@ -6,6 +6,11 @@ import { useQuery } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
 import { columns } from './columns'
 import { DataTable } from './data-table'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Smart Spending | Transactions',
+}
 
 export default function TransactionsPage() {
   const { data: session } = useSession()

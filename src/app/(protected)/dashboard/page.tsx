@@ -21,7 +21,12 @@ import {
 } from '@/data/transaction'
 import { getUserById } from '@/data/user'
 import { CalendarClock, WalletIcon } from 'lucide-react'
+import { Metadata } from 'next'
 import Image from 'next/image'
+
+export const metadata: Metadata = {
+  title: 'Smart Spending | Dashboard',
+}
 
 export default async function DashboardPage() {
   const session = await auth()

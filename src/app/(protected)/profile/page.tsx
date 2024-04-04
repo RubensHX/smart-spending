@@ -3,6 +3,11 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { CardContent, Card } from '@/components/ui/card'
 import { getUserById } from '@/data/user'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Smart Spending | Profile',
+}
 
 export default async function ProfilePage() {
   const session = await auth()
@@ -10,7 +15,7 @@ export default async function ProfilePage() {
   const email = session?.user?.email ?? ''
   const name = session?.user?.name ?? ''
   const user = await getUserById(session?.user?.id ?? '')
-  const role = user?.role.at(0) ?? ''
+  const role = user?.roles.at(0) ?? ''
   const birthDate = user?.birthDate?.toLocaleDateString() ?? ''
 
   return (
