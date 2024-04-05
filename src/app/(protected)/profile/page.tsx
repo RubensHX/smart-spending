@@ -31,7 +31,7 @@ export default async function ProfilePage() {
           </Avatar>
           <div className="flex items-center space-x-2 text-center">
             <div className="font-bold text-2xl">{name}</div>
-            <Badge variant="outline">{role}</Badge>
+            {role && <Badge variant="outline">{role}</Badge>}
           </div>
         </div>
         <div className="grid gap-1.5 text-center">

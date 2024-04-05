@@ -8,10 +8,6 @@ import { columns } from './columns'
 import { DataTable } from './data-table'
 import { Metadata } from 'next'
 
-export const metadata: Metadata = {
-  title: 'Smart Spending | Transactions',
-}
-
 export default function TransactionsPage() {
   const { data: session } = useSession()
   const user = session?.user
@@ -27,9 +23,12 @@ export default function TransactionsPage() {
   })
 
   return (
-    <main className="w-full px-6">
-      <CreateTransactionButton />
-      <DataTable columns={columns} data={transactions ?? []} />
-    </main>
+    <>
+      <title>Smart Spending | Transactions</title>
+      <main className="w-full px-6">
+        <CreateTransactionButton />
+        <DataTable columns={columns} data={transactions ?? []} />
+      </main>
+    </>
   )
 }

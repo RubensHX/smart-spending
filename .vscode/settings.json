@@ -2,5 +2,7 @@
   "cSpell.words": [
     "lucide",
     "tanstack"
-  ]
+  ],
+  "WillLuke.nextjs.addTypesOnSave": true,
+  "WillLuke.nextjs.hasPrompted": true
 }

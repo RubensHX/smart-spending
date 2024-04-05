@@ -43,6 +43,5 @@ export const createTransaction = async (
   }
 
   updateBudget({ amount: budgetAmount, description }, userId ?? '')
-
   return { success: 'Transaction created successfully!' }
 }
