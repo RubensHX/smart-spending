@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Smart Spending
 
-## Getting Started
+Smart Spending is a modern personal finance management application built with Next.js, leveraging NextAuth v4 for authentication, Prisma for database interactions, and server actions for handling complex operations. This app helps users track their expenses, manage budgets, and gain insights into their spending habits.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **User Authentication**: Secure user login and registration with NextAuth v4.
+- **Expense Tracking**: Record and categorize personal expenses.
+- **Budget Management**: Set and monitor budgets across different categories.
+- **Data Insights**: Generate reports and visualizations for spending patterns.
+- **Server Actions**: Efficient server-side operations with built-in support.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Technologies Used
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Next.js**: A React framework for server-rendered or statically-exported React apps.
+- **NextAuth v4**: Authentication for Next.js applications, providing login and session management.
+- **Prisma**: Modern ORM for database access, handling complex queries and data modeling.
+- **Server Actions**: Custom server-side logic to handle business rules and interactions.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Installation
 
-## Learn More
+To get started with Smart Spending, follow these steps:
 
-To learn more about Next.js, take a look at the following resources:
+1. **Clone the repository**:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    ```bash
+    git clone https://github.com/your-username/smart-spending.git
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+2. **Navigate to the project directory**:
 
-## Deploy on Vercel
+    ```bash
+    cd smart-spending
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. **Install dependencies**:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+    ```bash
+    npm install
+    ```
+
+4. **Set up environment variables**:
+
+    Create a `.env.local` file in the root directory and add the necessary environment variables. Example:
+
+    ```env
+    DATABASE_URL="your-database-url"
+    NEXTAUTH_URL="http://localhost:3000"
+    NEXTAUTH_SECRET="your-secret"
+    ```
+
+    Replace `your-database-url` and `your-secret` with your actual database connection string and secret key.
+
+5. **Run database migrations**:
+
+    ```bash
+    npx prisma migrate dev
+    ```
+
+6. **Start the development server**:
+
+    ```bash
+    npm run dev
+    ```
+
+    Open your browser and go to `http://localhost:3000` to see the app in action.
+
+## Usage
+
+- **Authentication**: Users can sign up, log in, and manage their accounts securely.
+- **Expense Management**: Add and categorize expenses, view expense history.
+- **Budget Tracking**: Set budgets and track spending against these budgets.
+- **Insights**: View and analyze spending trends and generate reports.
+  
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+## Contact
+
+For any questions or feedback, please reach out to [rubensh206@gmail.com](mailto:rubensh206@gmail.com).
+
+---
+
+Feel free to customize any part of this README to better fit your project and personal preferences!
